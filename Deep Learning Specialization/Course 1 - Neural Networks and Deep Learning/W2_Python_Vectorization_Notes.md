@@ -48,12 +48,39 @@ for i in range(m):
     z[i] = np.dot(w, X[i]) + b
     a[i] = sigmoid(z[i])
 ```
+X[i] is the i-th training example, shape: (n,)
 
+w is the weight vector, shape: (n,)
+
+np.dot(w, X[i]) → scalar
+
+This runs once per training example. No need to transpose anything — you're just computing a dot product for a single vector.
 ### Vectorized:
 ```python
 Z = np.dot(w.T, X) + b
 A = sigmoid(Z)
 ```
+Here we compute all examples at once:
+
+X shape: (n, m) → each column is an example
+
+w shape: (n, 1) (column vector)
+
+So to compute the dot product across all examples:
+
+w.T shape: (1, n)
+
+X shape: (n, m)
+
+Z = w.T @ X → shape: (1, m) → one activation per example
+
+### Why Transpose?
+We transpose w to make its shape compatible for matrix multiplication with X. If we didn’t transpose, the shapes would mismatch:
+
+Without .T: (n, 1) @ (n, m) → ❌ invalid
+
+With .T: (1, n) @ (n, m) → ✅ gives (1, m)
+
 
 ---
 
